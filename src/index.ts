@@ -17,7 +17,7 @@ app.use('/uploads', express.static('tmp/uploads'));
 app.use(authApiKey); // Middleware de autenticação de chave de API
 
 // Configuração das rotas
-app.use(router);
+app.use('/api', router);
 
 // Middleware de tratamento de erros do celebrate (Joi)
 app.use(errors());
