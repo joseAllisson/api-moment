@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: api-moment
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: moment_database2-db
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - .docker/dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=database-moment_database2
