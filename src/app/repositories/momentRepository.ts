@@ -4,7 +4,10 @@ import { MomentDto } from "../interfaces/dto/MomentDto";
 
 const momentRepository = AppDataSource.getRepository(Moment);
 
-const getMoments = (): Promise<Moment[]> => momentRepository.find();
+const getMoments = (page: number, perPage: number): Promise<[Moment[], number]> => momentRepository.findAndCount({
+    take: perPage,
+    skip: (page - 1) * perPage,
+});
 
 const getMomentById = (id: number): Promise<Moment | null> => momentRepository.findOneBy({ id });
 
