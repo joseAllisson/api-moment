@@ -2,6 +2,8 @@
 
 # how to install
 
+It is necessary to create a .env file equal to env.example
+
 npm i
 
 docker run -d \                                                                          
