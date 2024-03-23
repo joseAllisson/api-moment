@@ -33,4 +33,14 @@ const updateMoment = async (id: number, momentData: MomentDto): Promise<Moment |
     return await momentRepository.save(moment);
 }
 
-export default { getMoments, getMomentById, createMoment, updateMoment };
+const deleteMoment = async (id: number): Promise<boolean> => {
+    const moment = await momentRepository.findOneBy({ id });
+    if (!moment) {
+        return false;
+    }
+
+    await momentRepository.delete(id);
+    return true;
+}
+
+export default { getMoments, getMomentById, createMoment, updateMoment, deleteMoment };

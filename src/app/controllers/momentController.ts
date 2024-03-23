@@ -25,7 +25,7 @@ momentRouter.get('/:id', async (_req: Request, res: Response): Promise<Response>
     if (!moment) {
         return res.status(404).json({ message: 'Moment not found' });
     }
-    return res.status(200).json(moment);
+    return res.status(200).json({ data: moment });
 })
 
 
@@ -41,8 +41,20 @@ momentRouter.post('/', uploadFile.single('image'), async (req: Request, res: Res
     return res.status(201).json(moments);
 })
 
-momentRouter.put('/:id', async (req: Request, res: Response): Promise<Response> => {
-    const moments = await momentRepository.updateMoment(Number(req.params.id), req.body);
+momentRouter.put('/:id', uploadFile.single('image'), async (req: Request, res: Response): Promise<Response> => {
+    const moments = await momentRepository.updateMoment(Number(req.params.id), {
+        ...req.body,
+        image: req?.file?.path
+    });
+    
+    if (!moments) {
+        return res.status(404).json({ message: 'Moment not found' });
+    }
+    return res.status(200).json(moments);
+})
+
+momentRouter.delete('/:id', async (req: Request, res: Response): Promise<Response> => {
+    const moments = await momentRepository.deleteMoment(Number(req.params.id));
     if (!moments) {
         return res.status(404).json({ message: 'Moment not found' });
     }

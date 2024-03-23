@@ -21,6 +21,6 @@ export default class Moment extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToMany(() => Comment, (comment) => comment.moment, { nullable: true })
+  @OneToMany(() => Comment, (comment) => comment.moment, { nullable: true, eager: true })
   comments: Comment[]
 }
