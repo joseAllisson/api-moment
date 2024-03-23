@@ -5,19 +5,24 @@ import uploadFile from "../../shared/middleware/uploadFile";
 const momentRouter = Router();
 
 momentRouter.get('/', async (req: Request, res: Response): Promise<Response> => {
-    const page = req.query.page ? Number(req.query.page) : 1;
-    const perPage = req.query.perPage ? Number(req.query.perPage) : 20;
-
-    const [moments, total] = await momentRepository.getMoments(page, perPage);
-    return res.status(200).json({
-        data: moments,
-        meta: {
-          page,
-          perPage,
-          total,
-          totalPages: Math.ceil(total / perPage),
-        },
-    });
+    try {
+        const page = req.query.page ? Number(req.query.page) : 1;
+        const perPage = req.query.perPage ? Number(req.query.perPage) : 20;
+        const searchTerm = req.query.searchTerm ? String(req.query.searchTerm) : '';
+    
+        const [moments, total] = await momentRepository.getMoments(page, perPage, searchTerm);
+        return res.status(200).json({
+            data: moments,
+            meta: {
+              page,
+              perPage,
+              total,
+              totalPages: Math.ceil(total / perPage),
+            },
+        });
+    } catch (error) {
+        return res.status(400).json({ message: 'invalid parameters', error });
+    }
 })
 
 momentRouter.get('/:id', async (_req: Request, res: Response): Promise<Response> => {

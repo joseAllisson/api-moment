@@ -1,13 +1,29 @@
+import { FindManyOptions, Like } from "typeorm";
 import { AppDataSource } from "../../database/data-source";
 import Moment from "../entities/Moment";
 import { MomentDto } from "../interfaces/dto/MomentDto";
 
 const momentRepository = AppDataSource.getRepository(Moment);
 
-const getMoments = (page: number, perPage: number): Promise<[Moment[], number]> => momentRepository.findAndCount({
-    take: perPage,
-    skip: (page - 1) * perPage,
-});
+const getMoments = async (page: number, perPage: number, searchTerm: string): Promise<[Moment[], number]> => {
+    const options: FindManyOptions<Moment> = {
+        take: perPage,
+        skip: (page - 1) * perPage,
+        where: {},
+        order: {
+            createdAt: 'DESC',
+        },
+    };
+
+    if (searchTerm) {
+        options.where = {
+            title: Like(`%${searchTerm}%`),
+        };
+    }
+
+    const [moments, count] = await momentRepository.findAndCount(options);
+    return [moments, count];
+};
 
 const getMomentById = (id: number): Promise<Moment | null> => momentRepository.findOneBy({ id });
 
