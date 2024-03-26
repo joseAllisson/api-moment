@@ -2,7 +2,7 @@
 FROM node:latest
 
 # Defina o diretório de trabalho dentro do contêiner
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 
 # Copie o package.json e package-lock.json para o diretório de trabalho
 COPY package*.json ./
