@@ -16,6 +16,12 @@ export const AppDataSource = new DataSource({
     logging: true,
     entities: [Moment, Comment],
     subscribers: [],
+    ssl: !!process.env.DATABASE_SLL, // Ativa o SSL
+    extra: {
+        options: {
+            project: process.env.ENDPOINT_ID // apenas produção, pode remover para dev
+        }
+    },
     migrations: [
         CreateTableMoment1710426123074,
         CreateTableComment1710426206231
