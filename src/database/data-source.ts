@@ -6,7 +6,7 @@ import { CreateTableMoment1710426123074 } from "./migration/1710426123074-create
 import { CreateTableComment1710426206231 } from "./migration/1710426206231-create_table_comment";
 
 export const AppDataSource = new DataSource({
-    type: "mysql",
+    type: "postgres",
     host: process.env.DATABASE_HOST,
     port: Number(process.env.DATABASE_PORT),
     username: process.env.DATABASE_USERNAME,
